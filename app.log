@@ -1,0 +1,11 @@
+2026-03-19 05:46:24,136 - uvicorn.error - INFO - Started server process [13993]
+2026-03-19 05:46:24,137 - uvicorn.error - INFO - Waiting for application startup.
+2026-03-19 05:46:24,137 - uvicorn.error - INFO - Application startup complete.
+2026-03-19 06:07:52,377 - SixSense-Converter - INFO - Root page accessed
+2026-03-19 06:14:30,789 - uvicorn.error - INFO - Shutting down
+2026-03-19 06:14:30,891 - uvicorn.error - INFO - Waiting for application shutdown.
+2026-03-19 06:14:30,891 - uvicorn.error - INFO - Application shutdown complete.
+2026-03-19 06:14:30,892 - uvicorn.error - INFO - Finished server process [13993]
+2026-03-19 06:14:31,567 - uvicorn.error - INFO - Started server process [31200]
+2026-03-19 06:14:31,568 - uvicorn.error - INFO - Waiting for application startup.
+2026-03-19 06:14:31,568 - uvicorn.error - INFO - Application startup complete.
