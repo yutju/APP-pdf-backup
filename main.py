@@ -80,7 +80,7 @@ async def metrics():
 
 # 3. 변환 경로 (Rate Limit 적용)
 @app.post("/convert-to-pdf/")
-@limiter.limit("5/minute")
+@limiter.limit("10/minute")
 async def convert_any_to_pdf(request: Request, background_tasks: BackgroundTasks, file: UploadFile = File(...)):
     # 파일 용량 제한 체크 (100MB)
     MAX_SIZE = 100 * 1024 * 1024

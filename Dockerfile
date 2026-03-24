@@ -5,11 +5,15 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV LANG=ko_KR.UTF-8
-# [추가] K3s 파드 내부 로그 시간대를 한국 시간으로 맞추기 위해 필수
+# K3s 파드 내부 로그 시간대를 한국 시간으로 맞추기 위해 필수
 ENV TZ=Asia/Seoul
 
 # 3단계: 시스템 패키지 설치
+# LibreOffice(문서 변환 엔진)와 한글 폰트 설치를 포함합니다.
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    libreoffice-writer \
+    libreoffice-java-common \
+    default-jre \
     fonts-nanum \
     tzdata \
     && apt-get clean \
@@ -26,14 +30,16 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # 6단계: 소스 복사 및 권한 설정
-# [핵심 수정] COPY 이후 RUN chown을 쓰면 이미지 레이어 용량이 2배가 됩니다.
-# COPY 명령어 자체에 --chown 옵션을 주어 용량 뻥튀기를 원천 차단합니다.
+# COPY 시점에 소유권을 appuser로 지정하여 레이어 용량을 최적화합니다.
 COPY --chown=appuser:appgroup . .
 
-# [추가] temp_storage 폴더 생성 및 권한 명시
-RUN mkdir -p /app/temp_storage && chmod 755 /app/temp_storage
+# [핵심 수정] temp_storage 폴더 생성 및 소유권/권한 설정 🎖️
+# USER 전환 전에 실행해야 root 권한으로 폴더를 만들고 소유권을 넘길 수 있습니다.
+RUN mkdir -p /app/temp_storage && \
+    chown -R appuser:appgroup /app/temp_storage && \
+    chmod 755 /app/temp_storage
 
-# 7단계: 컨테이너 실행 유저 전환 (Zero-Trust)
+# 7단계: 컨테이너 실행 유저 전환 (보안 강화)
 USER appuser
 
 # 8단계: 애플리케이션 실행

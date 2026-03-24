@@ -51,7 +51,7 @@ data/
 *.hwp
 *.docx
 *.doc
-*.txt
+
 *.png
 *.jpg
 *.jpeg
